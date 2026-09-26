@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Notes on Pavan Shandilya &amp; Pooja G</title><link>https://pavanshandilya.github.io/notes/</link><description>Recent content in Notes on Pavan Shandilya &amp; Pooja G</description><generator>Hugo</generator><language>en-us</language><atom:link href="https://pavanshandilya.github.io/notes/index.xml" rel="self" type="application/rss+xml"/><item><title>Setup notes: from empty repo to dual-profile live roles</title><link>https://pavanshandilya.github.io/notes/first-note/</link><pubDate>Sat, 07 Feb 2026 10:00:00 +0000</pubDate><guid>https://pavanshandilya.github.io/notes/first-note/</guid><description>&lt;h2 id="why-this-note-exists"&gt;Why this note exists&lt;/h2&gt;
+&lt;p&gt;This note is a short operational log of how we got this website running end-to-end, with independent live-role tracking for both Pavan and Pooja.&lt;/p&gt;
+&lt;p&gt;Also: big credit to &lt;strong&gt;Vitthal Mirji&lt;/strong&gt; (&lt;code&gt;vitthalmirji.com&lt;/code&gt;) for architecture direction, review pressure, and practical guardrails.&lt;/p&gt;
+&lt;h2 id="what-we-did"&gt;What we did&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Bootstrapped Hugo with &lt;code&gt;ink-free&lt;/code&gt; theme as submodule.&lt;/li&gt;
+&lt;li&gt;Added clean GitHub Pages deploy workflow.&lt;/li&gt;
+&lt;li&gt;Integrated &lt;code&gt;hugo-live-roles-kit-v0.1&lt;/code&gt; in isolated package form.&lt;/li&gt;
+&lt;li&gt;Split live roles into two independent profiles and outputs.&lt;/li&gt;
+&lt;li&gt;Added shared About, Blog, Notes, and Playbook sections.&lt;/li&gt;
+&lt;li&gt;Added two independent menu entries:
+&lt;ul&gt;
+&lt;li&gt;Pavan roles&lt;/li&gt;
+&lt;li&gt;Pooja roles&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Fixed Mermaid rendering across Playbook, posts, and notes at template level.&lt;/li&gt;
+&lt;li&gt;Updated deploy trigger paths so role data updates publish automatically.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="what-mattered-most"&gt;What mattered most&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Keep config boundaries strict.&lt;/li&gt;
+&lt;li&gt;Keep profile intent editable by non-tech users.&lt;/li&gt;
+&lt;li&gt;Keep CI boring and deterministic.&lt;/li&gt;
+&lt;li&gt;Keep lifecycle policy explicit (21-day stale, 30-day inactive).&lt;/li&gt;
+&lt;li&gt;Keep docs in sync with real behavior after every workflow change.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="source-integrations-added-now"&gt;Source integrations added now&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Added direct support for Adzuna, Jooble, Remotive, Jobicy (while keeping all earlier sources).&lt;/li&gt;
+&lt;li&gt;Added SerpAPI-based smart query discovery to cover official sites and major boards.&lt;/li&gt;
+&lt;li&gt;Added board coverage logic for LinkedIn, Indeed, XING, Naukri, StepStone.&lt;/li&gt;
+&lt;li&gt;Added official careers page inputs and discovery fields in source registry YAML.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Main keys to add in GitHub secrets:&lt;/p&gt;</description></item></channel></rss>

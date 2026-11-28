@@ -1,0 +1,1874 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Home on Pavan Shandilya &amp; Pooja G</title><link>https://pavanshandilya.github.io/</link><description>Recent content in Home on Pavan Shandilya &amp; Pooja G</description><generator>Hugo</generator><language>en-us</language><atom:link href="https://pavanshandilya.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Setup notes: from empty repo to dual-profile live roles</title><link>https://pavanshandilya.github.io/notes/first-note/</link><pubDate>Sat, 07 Feb 2026 10:00:00 +0000</pubDate><guid>https://pavanshandilya.github.io/notes/first-note/</guid><description>&lt;h2 id="why-this-note-exists"&gt;Why this note exists&lt;/h2&gt;
+&lt;p&gt;This note is a short operational log of how we got this website running end-to-end, with independent live-role tracking for both Pavan and Pooja.&lt;/p&gt;
+&lt;p&gt;Also: big credit to &lt;strong&gt;Vitthal Mirji&lt;/strong&gt; (&lt;code&gt;vitthalmirji.com&lt;/code&gt;) for architecture direction, review pressure, and practical guardrails.&lt;/p&gt;
+&lt;h2 id="what-we-did"&gt;What we did&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Bootstrapped Hugo with &lt;code&gt;ink-free&lt;/code&gt; theme as submodule.&lt;/li&gt;
+&lt;li&gt;Added clean GitHub Pages deploy workflow.&lt;/li&gt;
+&lt;li&gt;Integrated &lt;code&gt;hugo-live-roles-kit-v0.1&lt;/code&gt; in isolated package form.&lt;/li&gt;
+&lt;li&gt;Split live roles into two independent profiles and outputs.&lt;/li&gt;
+&lt;li&gt;Added shared About, Blog, Notes, and Playbook sections.&lt;/li&gt;
+&lt;li&gt;Added two independent menu entries:
+&lt;ul&gt;
+&lt;li&gt;Pavan roles&lt;/li&gt;
+&lt;li&gt;Pooja roles&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Fixed Mermaid rendering across Playbook, posts, and notes at template level.&lt;/li&gt;
+&lt;li&gt;Updated deploy trigger paths so role data updates publish automatically.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="what-mattered-most"&gt;What mattered most&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Keep config boundaries strict.&lt;/li&gt;
+&lt;li&gt;Keep profile intent editable by non-tech users.&lt;/li&gt;
+&lt;li&gt;Keep CI boring and deterministic.&lt;/li&gt;
+&lt;li&gt;Keep lifecycle policy explicit (21-day stale, 30-day inactive).&lt;/li&gt;
+&lt;li&gt;Keep docs in sync with real behavior after every workflow change.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="source-integrations-added-now"&gt;Source integrations added now&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Added direct support for Adzuna, Jooble, Remotive, Jobicy (while keeping all earlier sources).&lt;/li&gt;
+&lt;li&gt;Added SerpAPI-based smart query discovery to cover official sites and major boards.&lt;/li&gt;
+&lt;li&gt;Added board coverage logic for LinkedIn, Indeed, XING, Naukri, StepStone.&lt;/li&gt;
+&lt;li&gt;Added official careers page inputs and discovery fields in source registry YAML.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Main keys to add in GitHub secrets:&lt;/p&gt;</description></item><item><title>Build once, run together: a dual-profile Hugo setup for Pavan and Pooja</title><link>https://pavanshandilya.github.io/2026/02/build-once-run-together-a-dual-profile-hugo-setup-for-pavan-and-pooja/</link><pubDate>Sat, 07 Feb 2026 09:00:00 +0000</pubDate><guid>https://pavanshandilya.github.io/2026/02/build-once-run-together-a-dual-profile-hugo-setup-for-pavan-and-pooja/</guid><description>A practical setup note for running one shared Hugo site with two isolated live-role systems and a non-tech playbook.</description></item><item><title>About</title><link>https://pavanshandilya.github.io/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pavanshandilya.github.io/about/</guid><description>&lt;p&gt;This is a shared home for &lt;strong&gt;Pavan&lt;/strong&gt; and &lt;strong&gt;Pooja&lt;/strong&gt;.&lt;/p&gt;
+
+
+
+
+
+&lt;div class="social-kit" style="display:flex;gap:0.75rem;flex-wrap:wrap;margin:1rem 0;"&gt;
+ &lt;a href="https://x.com/__HANDLE__" target="_blank" rel="noopener noreferrer" style="padding:0.45rem 0.75rem;border:1px solid #ddd;border-radius:8px;text-decoration:none;"&gt;X&lt;/a&gt;
+ &lt;a href="https://www.linkedin.com/in/__PROFILE__/" target="_blank" rel="noopener noreferrer" style="padding:0.45rem 0.75rem;border:1px solid #ddd;border-radius:8px;text-decoration:none;"&gt;LinkedIn&lt;/a&gt;
+ &lt;a href="https://github.com/__USERNAME__" target="_blank" rel="noopener noreferrer" style="padding:0.45rem 0.75rem;border:1px solid #ddd;border-radius:8px;text-decoration:none;"&gt;GitHub&lt;/a&gt;
+ &lt;a href="mailto:hello@example.com" style="padding:0.45rem 0.75rem;border:1px solid #ddd;border-radius:8px;text-decoration:none;"&gt;Email&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;h2 id="what-this-site-does"&gt;What this site does&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Publishes blog posts and practical notes.&lt;/li&gt;
+&lt;li&gt;Shows two independent live-role dashboards (one per person).&lt;/li&gt;
+&lt;li&gt;Keeps everything in one clean Hugo repo with boring, reliable automation.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="how-we-use-it"&gt;How we use it&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Pavan&lt;/strong&gt; and &lt;strong&gt;Pooja&lt;/strong&gt; each have their own role profile and source registry.&lt;/li&gt;
+&lt;li&gt;Content sections are shared and common.&lt;/li&gt;
+&lt;li&gt;CI updates live roles daily and deploys the site.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For day-to-day operations, open the &lt;strong&gt;Playbook&lt;/strong&gt; page from the top menu.&lt;/p&gt;</description></item><item><title>Live roles - Pavan</title><link>https://pavanshandilya.github.io/live-roles/pavan/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pavanshandilya.github.io/live-roles/pavan/</guid><description>&lt;div class="live-roles"&gt;
+ &lt;h3&gt;Live roles: Pavan - marketing, digital marketing, video editing&lt;/h3&gt;
+ &lt;p style="font-size:0.9rem;color:#666;"&gt;Last updated: 2026-11-28T00:36:52.038Z&lt;/p&gt;
+ 
+ &lt;p style="font-size:0.85rem;color:#777;"&gt;Stale after 21 days. Inactive after 30 days (archive).&lt;/p&gt;
+ 
+
+ 
+ &lt;h4&gt;digital_marketing&lt;/h4&gt;
+ &lt;div class="table-wrap" role="region" aria-label="Scrollable live roles table"&gt;
+ &lt;table&gt;
+ &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Company&lt;/th&gt;&lt;th&gt;Title&lt;/th&gt;&lt;th&gt;Location&lt;/th&gt;&lt;th&gt;Source&lt;/th&gt;&lt;th&gt;Fetched at&lt;/th&gt;&lt;th&gt;Source updated&lt;/th&gt;&lt;th&gt;Freshness&lt;/th&gt;&lt;th&gt;Link&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+ &lt;tbody&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Team Lead, SEO &amp;amp; GEO (all genders) &lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-17T06:49:46-05:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8303169?gh_jid=8303169" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Consultport&lt;/td&gt;
+ &lt;td&gt;Growth Marketing Manager&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-28 08:36:34 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://consultport.recruitee.com/o/growth-marketing-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hairfree&lt;/td&gt;
+ &lt;td&gt;Performance Marketing Manager (m/w/d) | Darmstadt&lt;/td&gt;
+ &lt;td&gt;Darmstadt, Hessen, Deutschland, Darmstadt, Deutschland&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-27 19:28:12 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://recruiting.hairfree.de/o/performance-marketing-manager-mwd-darmstadt-5" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hairfree&lt;/td&gt;
+ &lt;td&gt;Performance Marketing Manager (m/w/d) | Darmstadt&lt;/td&gt;
+ &lt;td&gt;Darmstadt, Hessen, Deutschland, Darmstadt, Deutschland&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-16 09:19:39 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://recruiting.hairfree.de/o/performance-marketing-manager-mwd-darmstadt-4" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hairfree&lt;/td&gt;
+ &lt;td&gt;Performance Marketing Manager (m/w/d) | Darmstadt&lt;/td&gt;
+ &lt;td&gt;Darmstadt, Hessen, Deutschland, Darmstadt, Deutschland&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-05 18:34:53 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://recruiting.hairfree.de/o/performance-marketing-manager-mwd-darmstadt-3" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Mainwebsolutions&lt;/td&gt;
+ &lt;td&gt;Bezahltes E-Commerce Praktikum (m/w/d) für dein Praxissemester (Hybrid / Würzburg)&lt;/td&gt;
+ &lt;td&gt;Würzburg, Bayern, Deutschland, Würzburg, Deutschland&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-07-12 07:30:40 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.mainwebsolutions.de/o/bezahltes-e-commerce-praktikum-mwd-fur-dein-praxissemester-hybrid-wurzburg" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Consultport&lt;/td&gt;
+ &lt;td&gt;Growth Marketing Intern (m/f/d)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-27 14:31:26 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://consultport.recruitee.com/o/growth-marketing-intern-mfd" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;SEO Specialist&lt;/td&gt;
+ &lt;td&gt;Remote job, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-27 14:53:30 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/seo-specialist-11" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Senior Performance Marketing Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-08-06 10:17:14 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/senior-performance-marketing-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Mainwebsolutions&lt;/td&gt;
+ &lt;td&gt;SEO/SEA Werkstudent (m/w/d) mit Fokus auf Sichtbarkeit in KI-Suchen (Remote oder Würzburg)&lt;/td&gt;
+ &lt;td&gt;Homeoffice, Würzburg, Deutschland&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-12 14:04:25 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.mainwebsolutions.de/o/seo-sea-werkstudent-mwd-mit-fokus-auf-sichtbarkeit-in-ki-suchen-remote-oder-wurzburg" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;clera&lt;/td&gt;
+ &lt;td&gt;Sales Development Representative (SDR), SEO Tools&lt;/td&gt;
+ &lt;td&gt;Munich&lt;/td&gt;
+ &lt;td&gt;ashby&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-27T17:02:29.964&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.ashbyhq.com/Clera/9bff80ff-1d95-4550-a61c-e3aebf2dd489/application" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;clera&lt;/td&gt;
+ &lt;td&gt;Account Executive (Full Cycle) mit SEO-Background&lt;/td&gt;
+ &lt;td&gt;Hamburg&lt;/td&gt;
+ &lt;td&gt;ashby&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-26T18:01:55.144&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.ashbyhq.com/Clera/911cad72-8162-4a0b-af7d-5a2dab3e9cdd/application" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;enpal&lt;/td&gt;
+ &lt;td&gt;Head of SEO (w/m/d)&lt;/td&gt;
+ &lt;td&gt;Berlin&lt;/td&gt;
+ &lt;td&gt;ashby&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-17T14:58:14.963&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.ashbyhq.com/enpal/582558e4-d040-4d0a-9a7b-a3095667b087/application" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;enpal&lt;/td&gt;
+ &lt;td&gt;SEO &amp;amp; GEO Lead (w/m/d) &lt;/td&gt;
+ &lt;td&gt;Berlin&lt;/td&gt;
+ &lt;td&gt;ashby&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-30T08:28:20.284&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.ashbyhq.com/enpal/0eb6d07d-31da-4c3d-bf8f-91d661d65b28/application" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;enpal&lt;/td&gt;
+ &lt;td&gt;Technical SEO Lead (w/m/d)&lt;/td&gt;
+ &lt;td&gt;Berlin&lt;/td&gt;
+ &lt;td&gt;ashby&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-17T14:58:05.000&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.ashbyhq.com/enpal/0670c386-b631-4969-88d0-31d487338763/application" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;the-exploration-company&lt;/td&gt;
+ &lt;td&gt;AIT Test &amp;amp; Assembly Technician&lt;/td&gt;
+ &lt;td&gt;Munich, Germany&lt;/td&gt;
+ &lt;td&gt;ashby&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-09-25T20:14:51.754&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.ashbyhq.com/the-exploration-company/d3241235-9266-4766-b52c-fa64d8df5996/application" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;se3&lt;/td&gt;
+ &lt;td&gt;Assembly Technician&lt;/td&gt;
+ &lt;td&gt;Undisclosed test site 35km from Munich&lt;/td&gt;
+ &lt;td&gt;ashby&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-18T08:50:03.918&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.ashbyhq.com/se3/b7fe50ea-f896-4fd1-9e3c-cc73d6fc5530/application" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;se3&lt;/td&gt;
+ &lt;td&gt;Drone Assembly Working Student/ Freelancer&lt;/td&gt;
+ &lt;td&gt;Undisclosed test site 35km from Munich&lt;/td&gt;
+ &lt;td&gt;ashby&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-01-19T17:19:56.140&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.ashbyhq.com/se3/74cb8f22-ab2c-4300-afb9-3ecaaf3d9934/application" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;quantumdiamonds&lt;/td&gt;
+ &lt;td&gt;Global Service Specialist - Semiconductor Equipment (f/m/d)&lt;/td&gt;
+ &lt;td&gt;Munich HQ&lt;/td&gt;
+ &lt;td&gt;ashby&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-28T10:11:39.127&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.ashbyhq.com/quantumdiamonds/38637699-a2f1-48d0-8536-ed3bd7d3987f/application" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;g2&lt;/td&gt;
+ &lt;td&gt;Senior AEO/SEO Specialist&lt;/td&gt;
+ &lt;td&gt;Bengaluru&lt;/td&gt;
+ &lt;td&gt;ashby&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-01-16T06:10:27.466&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.ashbyhq.com/G2/3690e8d4-8b7d-4d15-8c74-6325affa544b/application" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;g2&lt;/td&gt;
+ &lt;td&gt;AEO/SEO Content Specialist&lt;/td&gt;
+ &lt;td&gt;Bengaluru&lt;/td&gt;
+ &lt;td&gt;ashby&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-16T04:12:36.378&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.ashbyhq.com/G2/6a2c2548-e3a1-453a-a83c-015883295112/application" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Team Lead, SEO &amp;amp; GEO (all genders) &lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-17T06:49:46-05:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8303169?gh_jid=8303169" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Consultport&lt;/td&gt;
+ &lt;td&gt;Growth Marketing Manager&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-28 08:36:34 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://consultport.recruitee.com/o/growth-marketing-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hairfree&lt;/td&gt;
+ &lt;td&gt;Performance Marketing Manager (m/w/d) | Darmstadt&lt;/td&gt;
+ &lt;td&gt;Darmstadt, Hessen, Deutschland, Darmstadt, Deutschland&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-16 09:19:39 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://recruiting.hairfree.de/o/performance-marketing-manager-mwd-darmstadt-4" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hairfree&lt;/td&gt;
+ &lt;td&gt;Performance Marketing Manager (m/w/d) | Darmstadt&lt;/td&gt;
+ &lt;td&gt;Darmstadt, Hessen, Deutschland, Darmstadt, Deutschland&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-05 18:34:53 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://recruiting.hairfree.de/o/performance-marketing-manager-mwd-darmstadt-3" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Mainwebsolutions&lt;/td&gt;
+ &lt;td&gt;Bezahltes E-Commerce Praktikum (m/w/d) für dein Praxissemester (Hybrid / Würzburg)&lt;/td&gt;
+ &lt;td&gt;Würzburg, Bayern, Deutschland, Würzburg, Deutschland&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-07-12 07:30:40 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.mainwebsolutions.de/o/bezahltes-e-commerce-praktikum-mwd-fur-dein-praxissemester-hybrid-wurzburg" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Consultport&lt;/td&gt;
+ &lt;td&gt;Growth Marketing Intern (m/f/d)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-27 14:31:26 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://consultport.recruitee.com/o/growth-marketing-intern-mfd" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;SEO Specialist&lt;/td&gt;
+ &lt;td&gt;Remote job, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-27 14:53:30 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/seo-specialist-11" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Senior Performance Marketing Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-08-06 10:17:14 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/senior-performance-marketing-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Strive Nutrition GmbH&lt;/td&gt;
+ &lt;td&gt;Werkstudent / Praktikant (m/w/d) – Growth Marketing &amp;amp; Content&lt;/td&gt;
+ &lt;td&gt;Berlin&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;1795712477&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/strive-nutrition-gmbh/werkstudent-praktikant-growth-marketing-content-berlin-417651" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Strive Nutrition GmbH&lt;/td&gt;
+ &lt;td&gt;Werkstudent / Praktikant (m/w/d) – Growth Marketing &amp;amp; Content&lt;/td&gt;
+ &lt;td&gt;Berlin&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;1795726057&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/strive-nutrition-gmbh/werkstudent-praktikant-growth-marketing-content-berlin-425536" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Mainwebsolutions&lt;/td&gt;
+ &lt;td&gt;SEO/SEA Werkstudent (m/w/d) mit Fokus auf Sichtbarkeit in KI-Suchen (Remote oder Würzburg)&lt;/td&gt;
+ &lt;td&gt;Homeoffice, Würzburg, Deutschland&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-12 14:04:25 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.mainwebsolutions.de/o/seo-sea-werkstudent-mwd-mit-fokus-auf-sichtbarkeit-in-ki-suchen-remote-oder-wurzburg" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;clera&lt;/td&gt;
+ &lt;td&gt;Account Executive (Full Cycle) mit SEO-Background&lt;/td&gt;
+ &lt;td&gt;Hamburg&lt;/td&gt;
+ &lt;td&gt;ashby&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-26T18:01:55.144&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.ashbyhq.com/Clera/911cad72-8162-4a0b-af7d-5a2dab3e9cdd/application" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;enpal&lt;/td&gt;
+ &lt;td&gt;Head of SEO (w/m/d)&lt;/td&gt;
+ &lt;td&gt;Berlin&lt;/td&gt;
+ &lt;td&gt;ashby&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-17T14:58:14.963&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.ashbyhq.com/enpal/582558e4-d040-4d0a-9a7b-a3095667b087/application" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;enpal&lt;/td&gt;
+ &lt;td&gt;SEO &amp;amp; GEO Lead (w/m/d) &lt;/td&gt;
+ &lt;td&gt;Berlin&lt;/td&gt;
+ &lt;td&gt;ashby&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-30T08:28:20.284&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.ashbyhq.com/enpal/0eb6d07d-31da-4c3d-bf8f-91d661d65b28/application" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;enpal&lt;/td&gt;
+ &lt;td&gt;Technical SEO Lead (w/m/d)&lt;/td&gt;
+ &lt;td&gt;Berlin&lt;/td&gt;
+ &lt;td&gt;ashby&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-17T14:58:05.000&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.ashbyhq.com/enpal/0670c386-b631-4969-88d0-31d487338763/application" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;the-exploration-company&lt;/td&gt;
+ &lt;td&gt;AIT Test &amp;amp; Assembly Technician&lt;/td&gt;
+ &lt;td&gt;Munich, Germany&lt;/td&gt;
+ &lt;td&gt;ashby&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-09-25T20:14:51.754&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.ashbyhq.com/the-exploration-company/d3241235-9266-4766-b52c-fa64d8df5996/application" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;se3&lt;/td&gt;
+ &lt;td&gt;Assembly Technician&lt;/td&gt;
+ &lt;td&gt;Undisclosed test site 35km from Munich&lt;/td&gt;
+ &lt;td&gt;ashby&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-18T08:50:03.918&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.ashbyhq.com/se3/b7fe50ea-f896-4fd1-9e3c-cc73d6fc5530/application" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;se3&lt;/td&gt;
+ &lt;td&gt;Drone Assembly Working Student/ Freelancer&lt;/td&gt;
+ &lt;td&gt;Undisclosed test site 35km from Munich&lt;/td&gt;
+ &lt;td&gt;ashby&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-01-19T17:19:56.140&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.ashbyhq.com/se3/74cb8f22-ab2c-4300-afb9-3ecaaf3d9934/application" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;quantumdiamonds&lt;/td&gt;
+ &lt;td&gt;Global Service Specialist - Semiconductor Equipment (f/m/d)&lt;/td&gt;
+ &lt;td&gt;Munich HQ&lt;/td&gt;
+ &lt;td&gt;ashby&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-28T10:11:39.127&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.ashbyhq.com/quantumdiamonds/38637699-a2f1-48d0-8536-ed3bd7d3987f/application" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;/tbody&gt;
+ &lt;/table&gt;
+ &lt;/div&gt;
+ 
+ &lt;h4&gt;marketing_general&lt;/h4&gt;
+ &lt;div class="table-wrap" role="region" aria-label="Scrollable live roles table"&gt;
+ &lt;table&gt;
+ &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Company&lt;/th&gt;&lt;th&gt;Title&lt;/th&gt;&lt;th&gt;Location&lt;/th&gt;&lt;th&gt;Source&lt;/th&gt;&lt;th&gt;Fetched at&lt;/th&gt;&lt;th&gt;Source updated&lt;/th&gt;&lt;th&gt;Freshness&lt;/th&gt;&lt;th&gt;Link&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+ &lt;tbody&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Consultport&lt;/td&gt;
+ &lt;td&gt;Growth Marketing Manager&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-28 08:36:34 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://consultport.recruitee.com/o/growth-marketing-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;MY Humancapital GmbH&lt;/td&gt;
+ &lt;td&gt;Online Marketing Manager (m/w/d)&lt;/td&gt;
+ &lt;td&gt;Munich&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;1795802447&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/my-humancapital-gmbh/online-marketing-manager-munich-126159" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Bring! Labs AG&lt;/td&gt;
+ &lt;td&gt;B2B Marketing Manager (m/w/x)&lt;/td&gt;
+ &lt;td&gt;Berlin&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;1795814251&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/bring-labs-ag/b2b-marketing-manager-berlin-340429" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;SALTYBRANDS&lt;/td&gt;
+ &lt;td&gt;Senior Projektmanager/ Performance Marketing Manager (m/w/d) mit Kundenkontakt - Remote&lt;/td&gt;
+ &lt;td&gt;Homeoffice, Hamburg, Deutschland&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-22 08:40:27 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://karriere.saltybrands.de/o/senior-projektmanager-performance-marketing-manager-mwd-mit-kundenkontakt-remote" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;SALTYBRANDS&lt;/td&gt;
+ &lt;td&gt;Projektmanager/ Performance Marketing Manager / Employer Branding Specialist (m/w/d) - mit Kundenkontakt&lt;/td&gt;
+ &lt;td&gt;Hamburg, Hamburg, Deutschland, Hamburg, Deutschland&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-21 09:08:53 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://karriere.saltybrands.de/o/projektmanager-performance-marketing-manager-employer-branding-specialist-mwd-mit-kundenkontakt" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Senior Performance Marketing Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-08-06 10:17:14 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/senior-performance-marketing-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Consultport&lt;/td&gt;
+ &lt;td&gt;Growth Marketing Manager&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-28 08:36:34 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://consultport.recruitee.com/o/growth-marketing-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;SALTYBRANDS&lt;/td&gt;
+ &lt;td&gt;Senior Projektmanager/ Performance Marketing Manager (m/w/d) mit Kundenkontakt - Remote&lt;/td&gt;
+ &lt;td&gt;Homeoffice, Hamburg, Deutschland&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-22 08:40:27 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://karriere.saltybrands.de/o/senior-projektmanager-performance-marketing-manager-mwd-mit-kundenkontakt-remote" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;SALTYBRANDS&lt;/td&gt;
+ &lt;td&gt;Projektmanager/ Performance Marketing Manager / Employer Branding Specialist (m/w/d) - mit Kundenkontakt&lt;/td&gt;
+ &lt;td&gt;Hamburg, Hamburg, Deutschland, Hamburg, Deutschland&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-21 09:08:53 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://karriere.saltybrands.de/o/projektmanager-performance-marketing-manager-employer-branding-specialist-mwd-mit-kundenkontakt" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Senior Performance Marketing Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-08-06 10:17:14 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/senior-performance-marketing-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Consultport&lt;/td&gt;
+ &lt;td&gt;Growth Marketing Manager&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-26 01:04 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-28 08:36:34 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://consultport.recruitee.com/o/growth-marketing-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Cosuno&lt;/td&gt;
+ &lt;td&gt;Organic Growth Manager (SEO &amp;amp; AI Search)&lt;/td&gt;
+ &lt;td&gt;Berlin/Remote&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-26 01:04 UTC&lt;/td&gt;
+ &lt;td&gt;1795632012&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/cosuno/organic-growth-manager-seo-ai-search-berlin-108729" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;SALTYBRANDS&lt;/td&gt;
+ &lt;td&gt;Senior Projektmanager/ Performance Marketing Manager (m/w/d) mit Kundenkontakt - Remote&lt;/td&gt;
+ &lt;td&gt;Homeoffice, Hamburg, Deutschland&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-26 01:04 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-22 08:40:27 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://karriere.saltybrands.de/o/senior-projektmanager-performance-marketing-manager-mwd-mit-kundenkontakt-remote" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;SALTYBRANDS&lt;/td&gt;
+ &lt;td&gt;Projektmanager/ Performance Marketing Manager / Employer Branding Specialist (m/w/d) - mit Kundenkontakt&lt;/td&gt;
+ &lt;td&gt;Hamburg, Hamburg, Deutschland, Hamburg, Deutschland&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-26 01:04 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-21 09:08:53 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://karriere.saltybrands.de/o/projektmanager-performance-marketing-manager-employer-branding-specialist-mwd-mit-kundenkontakt" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Senior Performance Marketing Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-26 01:04 UTC&lt;/td&gt;
+ &lt;td&gt;2026-08-06 10:17:14 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/senior-performance-marketing-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;cosuno&lt;/td&gt;
+ &lt;td&gt;Organic Growth Manager (SEO &amp;amp; AI Search)&lt;/td&gt;
+ &lt;td&gt;Berlin/Remote&lt;/td&gt;
+ &lt;td&gt;ashby&lt;/td&gt;
+ &lt;td&gt;2026-11-26 01:04 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-24T16:33:59.731&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.ashbyhq.com/cosuno/f8a6a8d8-30a7-4450-b55b-70f98bbef552/application" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Consultport&lt;/td&gt;
+ &lt;td&gt;Growth Marketing Manager&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-25 01:30 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-28 08:36:34 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://consultport.recruitee.com/o/growth-marketing-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;SALTYBRANDS&lt;/td&gt;
+ &lt;td&gt;Senior Projektmanager/ Performance Marketing Manager (m/w/d) mit Kundenkontakt - Remote&lt;/td&gt;
+ &lt;td&gt;Homeoffice, Hamburg, Deutschland&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-25 01:30 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-22 08:40:27 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://karriere.saltybrands.de/o/senior-projektmanager-performance-marketing-manager-mwd-mit-kundenkontakt-remote" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;SALTYBRANDS&lt;/td&gt;
+ &lt;td&gt;Projektmanager/ Performance Marketing Manager / Employer Branding Specialist (m/w/d) - mit Kundenkontakt&lt;/td&gt;
+ &lt;td&gt;Hamburg, Hamburg, Deutschland, Hamburg, Deutschland&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-25 01:30 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-21 09:08:53 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://karriere.saltybrands.de/o/projektmanager-performance-marketing-manager-employer-branding-specialist-mwd-mit-kundenkontakt" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Senior Performance Marketing Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-25 01:30 UTC&lt;/td&gt;
+ &lt;td&gt;2026-08-06 10:17:14 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/senior-performance-marketing-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;cosuno&lt;/td&gt;
+ &lt;td&gt;Organic Growth Manager (SEO &amp;amp; AI Search)&lt;/td&gt;
+ &lt;td&gt;Berlin/Remote&lt;/td&gt;
+ &lt;td&gt;ashby&lt;/td&gt;
+ &lt;td&gt;2026-11-25 01:30 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-24T16:33:59.731&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.ashbyhq.com/cosuno/f8a6a8d8-30a7-4450-b55b-70f98bbef552/application" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Consultport&lt;/td&gt;
+ &lt;td&gt;Growth Marketing Manager&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-24 03:24 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-28 08:36:34 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://consultport.recruitee.com/o/growth-marketing-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Cyrus Digital GmbH&lt;/td&gt;
+ &lt;td&gt;Growth Marketing Manager (m/w/d)&lt;/td&gt;
+ &lt;td&gt;Munich&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-24 03:24 UTC&lt;/td&gt;
+ &lt;td&gt;1795444260&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/cyrus-digital-gmbh/growth-marketing-manager-munich-279977" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Cyrus Digital GmbH&lt;/td&gt;
+ &lt;td&gt;Junior Digital Marketing Manager&lt;/td&gt;
+ &lt;td&gt;Munich&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-24 03:24 UTC&lt;/td&gt;
+ &lt;td&gt;1795444260&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/cyrus-digital-gmbh/junior-digital-marketing-manager-munich-160640" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Cyrus Digital GmbH&lt;/td&gt;
+ &lt;td&gt;Junior Growth Marketing Manager (m/w/d)&lt;/td&gt;
+ &lt;td&gt;Munich&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-24 03:24 UTC&lt;/td&gt;
+ &lt;td&gt;1795444260&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/cyrus-digital-gmbh/junior-growth-marketing-manager-munich-300561" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;SALTYBRANDS&lt;/td&gt;
+ &lt;td&gt;Senior Projektmanager/ Performance Marketing Manager (m/w/d) mit Kundenkontakt - Remote&lt;/td&gt;
+ &lt;td&gt;Homeoffice, Hamburg, Deutschland&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-24 03:24 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-22 08:40:27 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://karriere.saltybrands.de/o/senior-projektmanager-performance-marketing-manager-mwd-mit-kundenkontakt-remote" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;SALTYBRANDS&lt;/td&gt;
+ &lt;td&gt;Projektmanager/ Performance Marketing Manager / Employer Branding Specialist (m/w/d) - mit Kundenkontakt&lt;/td&gt;
+ &lt;td&gt;Hamburg, Hamburg, Deutschland, Hamburg, Deutschland&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-24 03:24 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-21 09:08:53 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://karriere.saltybrands.de/o/projektmanager-performance-marketing-manager-employer-branding-specialist-mwd-mit-kundenkontakt" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Senior Performance Marketing Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-24 03:24 UTC&lt;/td&gt;
+ &lt;td&gt;2026-08-06 10:17:14 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/senior-performance-marketing-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Consultport&lt;/td&gt;
+ &lt;td&gt;Growth Marketing Manager&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-22 22:37 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-28 08:36:34 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://consultport.recruitee.com/o/growth-marketing-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;SALTYBRANDS&lt;/td&gt;
+ &lt;td&gt;Senior Projektmanager/ Performance Marketing Manager (m/w/d) mit Kundenkontakt - Remote&lt;/td&gt;
+ &lt;td&gt;Homeoffice, Hamburg, Deutschland&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-22 22:37 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-22 08:40:27 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://karriere.saltybrands.de/o/senior-projektmanager-performance-marketing-manager-mwd-mit-kundenkontakt-remote" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;SALTYBRANDS&lt;/td&gt;
+ &lt;td&gt;Projektmanager/ Performance Marketing Manager / Employer Branding Specialist (m/w/d) - mit Kundenkontakt&lt;/td&gt;
+ &lt;td&gt;Hamburg, Hamburg, Deutschland, Hamburg, Deutschland&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-22 22:37 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-21 09:08:53 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://karriere.saltybrands.de/o/projektmanager-performance-marketing-manager-employer-branding-specialist-mwd-mit-kundenkontakt" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Senior Performance Marketing Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-22 22:37 UTC&lt;/td&gt;
+ &lt;td&gt;2026-08-06 10:17:14 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/senior-performance-marketing-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;cosuno&lt;/td&gt;
+ &lt;td&gt;Organic Growth Manager (SEO &amp;amp; AI Search)&lt;/td&gt;
+ &lt;td&gt;Berlin/Remote&lt;/td&gt;
+ &lt;td&gt;ashby&lt;/td&gt;
+ &lt;td&gt;2026-11-22 22:37 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-12T08:17:28.104&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobs.ashbyhq.com/cosuno/30db9144-8853-4751-9346-92803c17c3e4/application" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Bela Living GmbH&lt;/td&gt;
+ &lt;td&gt;Praktikum (m/w/d) Praktikum Social Media &amp;amp; Content Marketing&lt;/td&gt;
+ &lt;td&gt;Berlin&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-22 22:37 UTC&lt;/td&gt;
+ &lt;td&gt;1795363249&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/bela-living-gmbh/praktikum-praktikum-social-media-content-marketing-berlin-158687" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Consultport&lt;/td&gt;
+ &lt;td&gt;Growth Marketing Manager&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-21 22:16 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-28 08:36:34 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://consultport.recruitee.com/o/growth-marketing-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;AMBOSS&lt;/td&gt;
+ &lt;td&gt;Junior Marketing Manager - DACH&lt;/td&gt;
+ &lt;td&gt;Berlin&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-21 22:16 UTC&lt;/td&gt;
+ &lt;td&gt;1795275618&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/amboss/junior-marketing-manager-dach-berlin-149378" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;FT Fitness Technology GmbH&lt;/td&gt;
+ &lt;td&gt;Social Media &amp;amp; E-Mail Marketing Manager (m/w/d) – Fokus Klettern &amp;amp; Bouldern&lt;/td&gt;
+ &lt;td&gt;Munich&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-21 22:16 UTC&lt;/td&gt;
+ &lt;td&gt;1795248046&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/ft-fitness-technology-gmbh/social-media-e-mail-marketing-manager-fokus-klettern-bouldern-munich-2613" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;SALTYBRANDS&lt;/td&gt;
+ &lt;td&gt;Senior Projektmanager/ Performance Marketing Manager (m/w/d) mit Kundenkontakt - Remote&lt;/td&gt;
+ &lt;td&gt;Homeoffice, Hamburg, Deutschland&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-21 22:16 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-22 08:40:27 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://karriere.saltybrands.de/o/senior-projektmanager-performance-marketing-manager-mwd-mit-kundenkontakt-remote" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;SALTYBRANDS&lt;/td&gt;
+ &lt;td&gt;Projektmanager/ Performance Marketing Manager / Employer Branding Specialist (m/w/d) - mit Kundenkontakt&lt;/td&gt;
+ &lt;td&gt;Hamburg, Hamburg, Deutschland, Hamburg, Deutschland&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-21 22:16 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-21 09:08:53 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://karriere.saltybrands.de/o/projektmanager-performance-marketing-manager-employer-branding-specialist-mwd-mit-kundenkontakt" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Senior Performance Marketing Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-21 22:16 UTC&lt;/td&gt;
+ &lt;td&gt;2026-08-06 10:17:14 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/senior-performance-marketing-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;/tbody&gt;
+ &lt;/table&gt;
+ &lt;/div&gt;
+ 
+ &lt;h4&gt;video_editing&lt;/h4&gt;
+ &lt;div class="table-wrap" role="region" aria-label="Scrollable live roles table"&gt;
+ &lt;table&gt;
+ &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Company&lt;/th&gt;&lt;th&gt;Title&lt;/th&gt;&lt;th&gt;Location&lt;/th&gt;&lt;th&gt;Source&lt;/th&gt;&lt;th&gt;Fetched at&lt;/th&gt;&lt;th&gt;Source updated&lt;/th&gt;&lt;th&gt;Freshness&lt;/th&gt;&lt;th&gt;Link&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+ &lt;tbody&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:36 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-17T03:29:20-05:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-17T03:29:20-05:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-26 01:04 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-17T03:29:20-05:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-25 01:30 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-17T03:29:20-05:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-24 03:24 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-17T03:29:20-05:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-22 22:37 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-17T03:29:20-05:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-21 22:16 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-17T03:29:20-05:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-20 23:13 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-17T03:29:20-05:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Rosental Organics GmbH&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Producer - Foto, Video, Motion (m/w/d)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Deutschland&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-20 23:13 UTC&lt;/td&gt;
+ &lt;td&gt;1795210280&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/rosental-organics-gmbh/senior-ai-content-producer-foto-video-motion-berlin-331792" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-19 23:40 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-17T03:29:20-05:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-18 23:28 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-17T03:29:20-05:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-17 23:55 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-17T03:29:20-05:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;EverAI&lt;/td&gt;
+ &lt;td&gt;Mid/Senior AI Cinematic Video Editor (Freelance - Remote - Germany)&lt;/td&gt;
+ &lt;td&gt;Germany&lt;/td&gt;
+ &lt;td&gt;jobicy&lt;/td&gt;
+ &lt;td&gt;2026-11-17 23:55 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-17T12:53:57&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobicy.com/jobs/162827-mid-senior-ai-cinematic-video-editor-freelance-remote-germany" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-17 00:55 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-16T11:34:07-05:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-15 21:58 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-11T13:31:53-05:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-14 21:38 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-11T13:31:53-05:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-13 22:46 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-11T13:31:53-05:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-11 23:34 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-11T13:31:53-05:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;EverAI&lt;/td&gt;
+ &lt;td&gt;Mid/Senior AI Cinematic Video Editor (Freelance - Full Remote - Germany)&lt;/td&gt;
+ &lt;td&gt;Germany&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-11 23:34 UTC&lt;/td&gt;
+ &lt;td&gt;1794422419&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/everai/mid-senior-ai-cinematic-video-editor-freelance-full-remote-germany-268732" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-10 22:28 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-05T12:48:33-05:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-08 21:18 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-05T12:48:33-05:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-07 21:02 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-05T12:48:33-05:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-04 22:45 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-02T04:10:56-05:00&lt;/td&gt;
+ &lt;td&gt;stale (23d)&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Rosental Organics GmbH&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Producer - Foto, Video, Motion (m/w/d) - Befristet auf 12 Monate vorerst&lt;/td&gt;
+ &lt;td&gt;Berlin&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-04 22:45 UTC&lt;/td&gt;
+ &lt;td&gt;1793809211&lt;/td&gt;
+ &lt;td&gt;stale (23d)&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/rosental-organics-gmbh/senior-ai-content-producer-foto-video-motion-befristet-auf-12-monate-vorerst-berlin-171868" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-03 22:27 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-02T04:10:56-05:00&lt;/td&gt;
+ &lt;td&gt;stale (24d)&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-11-01 21:19 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-15T10:25:03-04:00&lt;/td&gt;
+ &lt;td&gt;stale (26d)&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;wppmedia&lt;/td&gt;
+ &lt;td&gt;Senior Content Creator (Mensch)&lt;/td&gt;
+ &lt;td&gt;Cologne&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-01 21:19 UTC&lt;/td&gt;
+ &lt;td&gt;1793483718&lt;/td&gt;
+ &lt;td&gt;stale (26d)&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/wppmedia/senior-content-creator-mensch-cologne-331221" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-10-31 20:33 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-15T10:25:03-04:00&lt;/td&gt;
+ &lt;td&gt;stale (27d)&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;hellofresh&lt;/td&gt;
+ &lt;td&gt;Senior AI Content Creator (x/f/m)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;greenhouse&lt;/td&gt;
+ &lt;td&gt;2026-10-30 21:40 UTC&lt;/td&gt;
+ &lt;td&gt;2026-10-15T10:25:03-04:00&lt;/td&gt;
+ &lt;td&gt;stale (28d)&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://careers.hellofresh.com/global/en/job/8113656?gh_jid=8113656" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;/tbody&gt;
+ &lt;/table&gt;
+ &lt;/div&gt;
+ 
+&lt;/div&gt;</description></item><item><title>Live roles - Pooja</title><link>https://pavanshandilya.github.io/live-roles/pooja/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://pavanshandilya.github.io/live-roles/pooja/</guid><description>&lt;div class="live-roles"&gt;
+ &lt;h3&gt;Live roles: Pooja - product/scrum now, EM later&lt;/h3&gt;
+ &lt;p style="font-size:0.9rem;color:#666;"&gt;Last updated: 2026-11-28T00:37:42.189Z&lt;/p&gt;
+ 
+ &lt;p style="font-size:0.85rem;color:#777;"&gt;Stale after 21 days. Inactive after 30 days (archive).&lt;/p&gt;
+ 
+
+ 
+ &lt;h4&gt;pm_product&lt;/h4&gt;
+ &lt;div class="table-wrap" role="region" aria-label="Scrollable live roles table"&gt;
+ &lt;table&gt;
+ &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Company&lt;/th&gt;&lt;th&gt;Title&lt;/th&gt;&lt;th&gt;Location&lt;/th&gt;&lt;th&gt;Source&lt;/th&gt;&lt;th&gt;Fetched at&lt;/th&gt;&lt;th&gt;Source updated&lt;/th&gt;&lt;th&gt;Freshness&lt;/th&gt;&lt;th&gt;Link&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+ &lt;tbody&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Associate Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:37 UTC&lt;/td&gt;
+ &lt;td&gt;2026-08-05 06:02:31 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/associate-product-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Associate Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:37 UTC&lt;/td&gt;
+ &lt;td&gt;2026-07-30 23:25:59 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/associate-product-manager-1" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Technical Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:37 UTC&lt;/td&gt;
+ &lt;td&gt;2026-07-30 15:08:53 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/technical-product-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Roompricegenie&lt;/td&gt;
+ &lt;td&gt;Remote Sr. Product Manager (m/f/d)&lt;/td&gt;
+ &lt;td&gt;Remote Germany&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:37 UTC&lt;/td&gt;
+ &lt;td&gt;1795815613&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/roompricegenie/remote-sr-product-manager-43710" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Skdse&lt;/td&gt;
+ &lt;td&gt;Product Manager Mission Autonomy (All Genders)&lt;/td&gt;
+ &lt;td&gt;Munich, Bavaria&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:37 UTC&lt;/td&gt;
+ &lt;td&gt;1795794925&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/skdse/product-manager-mission-autonomy-all-genders-munich-bavaria-354681" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;N8N&lt;/td&gt;
+ &lt;td&gt;Group Product Manager - AI Experience&lt;/td&gt;
+ &lt;td&gt;Germany&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-28 00:37 UTC&lt;/td&gt;
+ &lt;td&gt;1795815614&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/n8n/group-product-manager-ai-experience-germany-117123" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Associate Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-08-05 06:02:31 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/associate-product-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Associate Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-07-30 23:25:59 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/associate-product-manager-1" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Technical Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-07-30 15:08:53 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/technical-product-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Consultport&lt;/td&gt;
+ &lt;td&gt;(Senior) Product Manager, AI-first (m/w/d), Berlin on-site&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-18 09:28:53 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://consultport.recruitee.com/o/senior-product-manager-ai-first-mwd-berlin-on-site" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Associate Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-26 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-08-05 06:02:31 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/associate-product-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Associate Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-26 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-07-30 23:25:59 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/associate-product-manager-1" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;JustPlay GmbH&lt;/td&gt;
+ &lt;td&gt;Senior Product Manager - Platform Experience (all genders)&lt;/td&gt;
+ &lt;td&gt;Berlin (Hybrid)&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-26 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;1795632011&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/justplay-gmbh/senior-product-manager-platform-experience-all-genders-berlin-356433" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Technical Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-26 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-07-30 15:08:53 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/technical-product-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Consultport&lt;/td&gt;
+ &lt;td&gt;(Senior) Product Manager, AI-first (m/w/d), Berlin on-site&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-26 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-18 09:28:53 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://consultport.recruitee.com/o/senior-product-manager-ai-first-mwd-berlin-on-site" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Associate Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-25 01:31 UTC&lt;/td&gt;
+ &lt;td&gt;2026-08-05 06:02:31 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/associate-product-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Associate Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-25 01:31 UTC&lt;/td&gt;
+ &lt;td&gt;2026-07-30 23:25:59 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/associate-product-manager-1" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Technical Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-25 01:31 UTC&lt;/td&gt;
+ &lt;td&gt;2026-07-30 15:08:53 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/technical-product-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Consultport&lt;/td&gt;
+ &lt;td&gt;(Senior) Product Manager, AI-first (m/w/d), Berlin on-site&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-25 01:31 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-18 09:28:53 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://consultport.recruitee.com/o/senior-product-manager-ai-first-mwd-berlin-on-site" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Sanovio&lt;/td&gt;
+ &lt;td&gt;Technical Product Manager&lt;/td&gt;
+ &lt;td&gt;Munich&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-25 01:31 UTC&lt;/td&gt;
+ &lt;td&gt;1795534815&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/sanovio/technical-product-manager-munich-85258" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Associate Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-24 03:25 UTC&lt;/td&gt;
+ &lt;td&gt;2026-08-05 06:02:31 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/associate-product-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Associate Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-24 03:25 UTC&lt;/td&gt;
+ &lt;td&gt;2026-07-30 23:25:59 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/associate-product-manager-1" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Technical Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-24 03:25 UTC&lt;/td&gt;
+ &lt;td&gt;2026-07-30 15:08:53 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/technical-product-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;BJAK&lt;/td&gt;
+ &lt;td&gt;Product Manager - AI Finance&lt;/td&gt;
+ &lt;td&gt;Germany&lt;/td&gt;
+ &lt;td&gt;jobicy&lt;/td&gt;
+ &lt;td&gt;2026-11-24 03:25 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-23T12:50:01&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobicy.com/jobs/163965-product-manager-ai-finance" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Consultport&lt;/td&gt;
+ &lt;td&gt;(Senior) Product Manager, AI-first (m/w/d), Berlin on-site&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-24 03:25 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-18 09:28:53 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://consultport.recruitee.com/o/senior-product-manager-ai-first-mwd-berlin-on-site" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Associate Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-22 22:38 UTC&lt;/td&gt;
+ &lt;td&gt;2026-08-05 06:02:31 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/associate-product-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Associate Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-22 22:38 UTC&lt;/td&gt;
+ &lt;td&gt;2026-07-30 23:25:59 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/associate-product-manager-1" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Technical Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-22 22:38 UTC&lt;/td&gt;
+ &lt;td&gt;2026-07-30 15:08:53 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/technical-product-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;N8N&lt;/td&gt;
+ &lt;td&gt;Senior Product Manager (Enterprise)&lt;/td&gt;
+ &lt;td&gt;Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-22 22:38 UTC&lt;/td&gt;
+ &lt;td&gt;1795362013&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/n8n/senior-product-manager-enterprise-berlin-421306" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Consultport&lt;/td&gt;
+ &lt;td&gt;(Senior) Product Manager, AI-first (m/w/d), Berlin on-site&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-22 22:38 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-18 09:28:53 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://consultport.recruitee.com/o/senior-product-manager-ai-first-mwd-berlin-on-site" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Distribusion Technologies&lt;/td&gt;
+ &lt;td&gt;Product Manager, Platform (all genders)&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-22 22:38 UTC&lt;/td&gt;
+ &lt;td&gt;1795383085&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/distribusion-technologies/product-manager-platform-all-genders-berlin-380387" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Distribusion Technologies&lt;/td&gt;
+ &lt;td&gt;Product Manager, Platform (all genders)&lt;/td&gt;
+ &lt;td&gt;Berlin&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-22 22:38 UTC&lt;/td&gt;
+ &lt;td&gt;1795364410&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/distribusion-technologies/product-manager-platform-all-genders-berlin-490722" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Associate Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-21 22:17 UTC&lt;/td&gt;
+ &lt;td&gt;2026-08-05 06:02:31 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/associate-product-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Associate Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-21 22:17 UTC&lt;/td&gt;
+ &lt;td&gt;2026-07-30 23:25:59 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/associate-product-manager-1" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Technical Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-21 22:17 UTC&lt;/td&gt;
+ &lt;td&gt;2026-07-30 15:08:53 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/technical-product-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;rebuy&lt;/td&gt;
+ &lt;td&gt;Product Manager – Operations Systems (m/f/x)&lt;/td&gt;
+ &lt;td&gt;Rudow, Berlin, Germany, Rudow, Germany&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-21 22:17 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-18 13:41:34 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://rebuy.recruitee.com/o/product-manager-operations-systems-mfx" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Consultport&lt;/td&gt;
+ &lt;td&gt;(Senior) Product Manager, AI-first (m/w/d), Berlin on-site&lt;/td&gt;
+ &lt;td&gt;Berlin, Berlin, Germany, Berlin, Germany&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-21 22:17 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-18 09:28:53 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://consultport.recruitee.com/o/senior-product-manager-ai-first-mwd-berlin-on-site" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Associate Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-20 23:15 UTC&lt;/td&gt;
+ &lt;td&gt;2026-08-05 06:02:31 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/associate-product-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Associate Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-20 23:15 UTC&lt;/td&gt;
+ &lt;td&gt;2026-07-30 23:25:59 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/associate-product-manager-1" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;TransPerfect&lt;/td&gt;
+ &lt;td&gt;Technical Product Manager&lt;/td&gt;
+ &lt;td&gt;Pune, Mahārāshtra, India, Pune, India&lt;/td&gt;
+ &lt;td&gt;recruitee&lt;/td&gt;
+ &lt;td&gt;2026-11-20 23:15 UTC&lt;/td&gt;
+ &lt;td&gt;2026-07-30 15:08:53 UTC&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://transperfect.com/o/technical-product-manager" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;/tbody&gt;
+ &lt;/table&gt;
+ &lt;/div&gt;
+ 
+ &lt;h4&gt;program_management&lt;/h4&gt;
+ &lt;div class="table-wrap" role="region" aria-label="Scrollable live roles table"&gt;
+ &lt;table&gt;
+ &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Company&lt;/th&gt;&lt;th&gt;Title&lt;/th&gt;&lt;th&gt;Location&lt;/th&gt;&lt;th&gt;Source&lt;/th&gt;&lt;th&gt;Fetched at&lt;/th&gt;&lt;th&gt;Source updated&lt;/th&gt;&lt;th&gt;Freshness&lt;/th&gt;&lt;th&gt;Link&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+ &lt;tbody&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Axon&lt;/td&gt;
+ &lt;td&gt;Senior Technical Program Manager I&lt;/td&gt;
+ &lt;td&gt;Germany, Netherlands&lt;/td&gt;
+ &lt;td&gt;jobicy&lt;/td&gt;
+ &lt;td&gt;2026-11-17 23:56 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-17T12:54:19&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobicy.com/jobs/162830-senior-technical-program-manager-i" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;autoscout24&lt;/td&gt;
+ &lt;td&gt;Senior Commercial Program Manager (m/f/d)&lt;/td&gt;
+ &lt;td&gt;&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-13 22:49 UTC&lt;/td&gt;
+ &lt;td&gt;1794606940&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/autoscout24/senior-commercial-program-manager-3154" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Orbem&lt;/td&gt;
+ &lt;td&gt;Staff Technical Program Manager (f/m/d)&lt;/td&gt;
+ &lt;td&gt;Munich&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-10-31 20:36 UTC&lt;/td&gt;
+ &lt;td&gt;1793439615&lt;/td&gt;
+ &lt;td&gt;stale (27d)&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/orbem/staff-technical-program-manager-munich-75349" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;/tbody&gt;
+ &lt;/table&gt;
+ &lt;/div&gt;
+ 
+ &lt;h4&gt;scrum_agile&lt;/h4&gt;
+ &lt;div class="table-wrap" role="region" aria-label="Scrollable live roles table"&gt;
+ &lt;table&gt;
+ &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Company&lt;/th&gt;&lt;th&gt;Title&lt;/th&gt;&lt;th&gt;Location&lt;/th&gt;&lt;th&gt;Source&lt;/th&gt;&lt;th&gt;Fetched at&lt;/th&gt;&lt;th&gt;Source updated&lt;/th&gt;&lt;th&gt;Freshness&lt;/th&gt;&lt;th&gt;Link&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+ &lt;tbody&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;NielsenIQ&lt;/td&gt;
+ &lt;td&gt;Program Manager - Scaled Agile Framework&lt;/td&gt;
+ &lt;td&gt;Chennai, TN, India&lt;/td&gt;
+ &lt;td&gt;smartrecruiters&lt;/td&gt;
+ &lt;td&gt;2026-11-27 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-25T05:26:13.165Z&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://api.smartrecruiters.com/v1/companies/nielseniq/postings/744000163609069" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;NielsenIQ&lt;/td&gt;
+ &lt;td&gt;Program Manager - Scaled Agile Framework&lt;/td&gt;
+ &lt;td&gt;Chennai, TN, India&lt;/td&gt;
+ &lt;td&gt;smartrecruiters&lt;/td&gt;
+ &lt;td&gt;2026-11-26 01:05 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-25T05:26:13.165Z&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://api.smartrecruiters.com/v1/companies/nielseniq/postings/744000163609069" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Axon&lt;/td&gt;
+ &lt;td&gt;Senior Technical Program Manager I&lt;/td&gt;
+ &lt;td&gt;Germany, Netherlands&lt;/td&gt;
+ &lt;td&gt;jobicy&lt;/td&gt;
+ &lt;td&gt;2026-11-17 23:56 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-17T12:54:19&amp;#43;00:00&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://jobicy.com/jobs/162830-senior-technical-program-manager-i" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;wongdoody&lt;/td&gt;
+ &lt;td&gt;Senior Technical Project Manager / Delivery Manager&lt;/td&gt;
+ &lt;td&gt;Berlin, DE&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-11-17 23:56 UTC&lt;/td&gt;
+ &lt;td&gt;1794952526&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/wongdoody/senior-technical-project-manager-delivery-manager-berlin-de-256427" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;NielsenIQ&lt;/td&gt;
+ &lt;td&gt;Program Manager - Scaled Agile Framework&lt;/td&gt;
+ &lt;td&gt;Chennai, TN, India&lt;/td&gt;
+ &lt;td&gt;smartrecruiters&lt;/td&gt;
+ &lt;td&gt;2026-11-17 23:56 UTC&lt;/td&gt;
+ &lt;td&gt;2026-11-17T10:58:21.943Z&lt;/td&gt;
+ &lt;td&gt;fresh&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://api.smartrecruiters.com/v1/companies/nielseniq/postings/744000162050586" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr&gt;
+ &lt;td&gt;Orbem&lt;/td&gt;
+ &lt;td&gt;Staff Technical Program Manager (f/m/d)&lt;/td&gt;
+ &lt;td&gt;Munich&lt;/td&gt;
+ &lt;td&gt;arbeitnow&lt;/td&gt;
+ &lt;td&gt;2026-10-31 20:36 UTC&lt;/td&gt;
+ &lt;td&gt;1793439615&lt;/td&gt;
+ &lt;td&gt;stale (27d)&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://www.arbeitnow.com/jobs/companies/orbem/staff-technical-program-manager-munich-75349" rel="noopener nofollow" target="_blank"&gt;Apply&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;/tbody&gt;
+ &lt;/table&gt;
+ &lt;/div&gt;
+ 
+&lt;/div&gt;</description></item></channel></rss>
